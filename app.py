@@ -17,7 +17,7 @@ age = st.number_input("Age", min_value=15, max_value=22, value=18)
 romantic = st.selectbox("In a Romantic Relationship?", ["No", "Yes"])
 famrel = st.slider("Family Relationship Quality (1-5)", min_value=1, max_value=5, value=3)
 
-# Add missing features
+# Additional features
 reason = st.selectbox("Reason for Choosing School", ["Home", "Reputation", "Course", "Other"])
 guardian = st.selectbox("Guardian", ["Mother", "Father", "Other"])
 health = st.slider("Health Status (1-5)", min_value=1, max_value=5, value=3)
@@ -32,7 +32,7 @@ Walc = st.slider("Weekend Alcohol Consumption (1-5)", min_value=1, max_value=5, 
 traveltime = st.slider("Home to School Travel Time (1-4)", min_value=1, max_value=4, value=2)
 Medu = st.slider("Mother's Education Level (0-4)", min_value=0, max_value=4, value=2)
 
-# Convert categorical values to numerical (Label Encoding)
+# Convert categorical values to numerical
 romantic = 1 if romantic == "Yes" else 0
 schoolsup = 1 if schoolsup == "Yes" else 0
 activities = 1 if activities == "Yes" else 0
@@ -58,4 +58,17 @@ input_data = pd.DataFrame([[G2, absences, G1, age, romantic, famrel, reason, gua
 # Prediction button
 if st.button("Predict Score"):
     prediction = model.predict(input_data)
-    st.success(f"📊 Predicted Final Grade (G3): {round(prediction[0], 2)}")
+    final_score = round(prediction[0], 2)
+
+    # Generate comments based on the predicted score
+    if final_score >= 18:
+        comment = "🌟 Excellent! Keep up the great work!"
+    elif final_score >= 15:
+        comment = "👍 Good job! You are doing well, keep pushing!"
+    elif final_score >= 10:
+        comment = "📚 You can do better! Focus on improving your study habits."
+    else:
+        comment = "⚠️ Your score is quite low. Consider seeking extra help and studying more effectively."
+
+    st.success(f"📊 Predicted Final Grade (G3): {final_score}")
+    st.write(comment)
