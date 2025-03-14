@@ -22,6 +22,13 @@ romantic = 1 if romantic == "Yes" else 0
 input_data = pd.DataFrame([[G2, absences, G1, age, romantic, famrel]],
                           columns=["G2", "absences", "G1", "age", "romantic", "famrel"])
 
+# Check model's expected features
+expected_features = model.feature_names_in_
+st.write("Model expects features:", expected_features)
+
+# Ensure input data has the correct columns
+input_data = input_data[expected_features]
+
 # Prediction button
 if st.button("Predict Score"):
     prediction = model.predict(input_data)
